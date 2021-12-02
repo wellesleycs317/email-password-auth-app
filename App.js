@@ -11,9 +11,6 @@ import { // access to authentication features:
          // for logging out:
          signOut
   } from "firebase/auth";
-import { getFirestore, 
-         collection, doc, addDoc, setDoc, getDocs
-  } from "firebase/firestore";
 
 // *** REPLACE THIS STUB! ***
 // Your web app's Firebase configuration
@@ -29,10 +26,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
-// Add Google as an authorization provider 
-// (only need if using Google to authenticate)
-// const provider = new GoogleAuthProvider(firebaseApp);
-const db = getFirestore(firebaseApp);
 
 function formatJSON(jsonVal) {
   // Lyn sez: replacing \n by <br/> not necesseary if use this CSS:
@@ -49,18 +42,11 @@ function emailOf(user) {
   }
 }
 
-
-
 export default function App() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errorMsg, setErrorMsg] = React.useState('');
-  const [credential, setCredential] = React.useState(null);
   const [loggedInUser, setLoggedInUser] = React.useState(null);
-  // const [waitingForRedirectCredential, setWaitingForRedirectCredential] = React.useState(false);
-
-  // Unsubscriber variable that will be set on component mount
-  let unsubscribeOnAuthStateChanged = undefined
 
   useEffect(() => {
       // Anything in here is fired on component mount.
