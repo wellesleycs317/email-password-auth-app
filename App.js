@@ -12,6 +12,7 @@ import { // access to authentication features:
          signOut
   } from "firebase/auth";
 
+/* 
 // *** REPLACE THIS STUB! ***
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,6 +22,16 @@ const firebaseConfig = {
   storageBucket: "...details omitted...",
   messagingSenderId: "...details omitted...",
   appId: "...details omitted...",
+};
+*/
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC0oCv8q3b8b63NVMNHEjET3SSH7QMRtTQ",
+  authDomain: "chatapp-ef4ee.firebaseapp.com",
+  projectId: "chatapp-ef4ee",
+  storageBucket: "chatapp-ef4ee.appspot.com",
+  messagingSenderId: "619760702154",
+  appId: "1:619760702154:web:8b6d1638433dbc3ce25a33"
 };
 
 // Initialize Firebase
@@ -85,7 +96,7 @@ export default function App() {
     // Invoke Firebase authentication API for Email/Password sign up 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log('signUpUserEmailPassword: sign up succeeded (but email still needs verification');
+        console.log(`signUpUserEmailPassword: sign up for email ${email} succeeded (but email still needs verification).`);
 
         // Clear email/password inputs
         const savedEmail = email; // Save for email verification
@@ -107,7 +118,7 @@ export default function App() {
           });
       })
       .catch((error) => {
-        console.log('signUpUserEmailPassword: sign up failed!');
+        console.log(`signUpUserEmailPassword: sign up failed for email ${email}`);
         const errorMessage = error.message;
         // const errorCode = error.code; // Could use this, too.
         console.log(`createUserWithEmailAndPassword: ${errorMessage}`);
@@ -123,7 +134,7 @@ export default function App() {
     // Use Email/Password for authentication 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(`signInUserEmailPassword succeeded; have userCredential for auth.currentUser=${auth.currentUser} (but may not be verified)`); 
+        console.log(`signInUserEmailPassword succeeded for email ${email}; have userCredential for emailOf(auth.currentUser)=${emailOf(auth.currentUser)} (but may not be verified)`); 
         console.log(`signInUserEmailPassword: emailOf(currentUser)1=${emailOf(auth.currentUser)}`); 
         console.log(`signInUserEmailPassword: emailOf(loggedInUser)1=${emailOf(loggedInUser)}`); 
 
@@ -140,7 +151,7 @@ export default function App() {
     
         })
       .catch((error) => {
-        console.log('signUpUserEmailPassword: sign in failed!');
+        console.log(`signUpUserEmailPassword: sign in failed for email ${email}`);
         const errorMessage = error.message;
         // const errorCode = error.code; // Could use this, too.
         console.log(`signInUserEmailPassword: ${errorMessage}`);
@@ -150,7 +161,7 @@ export default function App() {
 
   function checkEmailVerification() {
     if (auth.currentUser) {
-      console.log(`checkEmailVerification: auth.currentUser.emailVerified={auth.currentUser.emailVerified}`);
+      console.log(`checkEmailVerification: auth.currentUser.emailVerified=${auth.currentUser.emailVerified}`);
       if (auth.currentUser.emailVerified) {
         console.log(`checkEmailVerification: setLoggedInUser for ${auth.currentUser.email}`);
         setLoggedInUser(auth.currentUser);
@@ -165,8 +176,11 @@ export default function App() {
 
   function logOut() {
     console.log('logOut'); 
-    console.log(`in logOut, setLoggedInUser(null)`);
+    console.log(`logOut: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+    console.log(`logOut: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+    console.log(`logOut: setLoggedInUser(null)`);
     setLoggedInUser(null);
+    console.log('logOut: signOut(auth)');
     signOut(auth); // Will eventually set auth.currentUser to null     
   }
 
